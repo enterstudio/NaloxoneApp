@@ -37,7 +37,7 @@ import java.util.Random;
 public class MainReceiver extends BroadcastReceiver {
 
     private static final int HEART_RATE_MIN = 60;
-    private static final int HEART_RATE_MAX = 100;
+    private static final int HEART_RATE_MAX = 80;
 
     private static final int RANDOM_NUM_MIN = 40;
     private static final int RANDOM_NUM_MAX = 100;
@@ -52,7 +52,7 @@ public class MainReceiver extends BroadcastReceiver {
 
         SharedPreferences sPreference = context.getApplicationContext().getSharedPreferences("Database", 0);
         int value1 = sPreference.getInt("Value1", 0);
-        int value2 = sPreference.getInt("Value2", 0);
+        Log.e("PastReadingFromSP", ""+value1);
         boolean alertTriggered = sPreference.getBoolean("isAlertStart", false);
         SharedPreferences.Editor editor = sPreference.edit();
 
@@ -62,66 +62,43 @@ public class MainReceiver extends BroadcastReceiver {
             int randomNum = rand.nextInt((RANDOM_NUM_MAX - RANDOM_NUM_MIN) + 1) + RANDOM_NUM_MIN;
 
             if (value1 != 0) {
-                if (value2 != 0) {
 
-                } else {
-                    Log.e("InsertValue2", "" + randomNum);
-                    editor.putInt("Value2", randomNum);
-                    if ((value1 < HEART_RATE_MIN || value1 > HEART_RATE_MAX) && (value2 < HEART_RATE_MIN || value2 > HEART_RATE_MAX)) {
+                Log.e("PastReading", "" + value1);
+                Log.e("PresentReading", "" + randomNum);
+                if ((value1 < HEART_RATE_MIN || value1 > HEART_RATE_MAX) && (randomNum < HEART_RATE_MIN || randomNum > HEART_RATE_MAX))
+                {
+                    //Get user current location
+                    registerBroadCastReceivers(context);
+                    mCarrierMobileNumber = new ArrayList<>();
+                    GpsTrackerService gpsTrackerService = new GpsTrackerService(context);
+                    if (gpsTrackerService.canGetLocation()) {
+                        double latitude = gpsTrackerService.getLatitude();
+                        double longitude = gpsTrackerService.getLongitude();
+                        Log.e("Latitude", "" + latitude);
+                        Log.e("Longitude", "" + longitude);
 
+                        //get two Nearest Naloxone Carriers from API
+                        getNaloxoneCarrier(context, String.valueOf(latitude), String.valueOf(longitude));
 
-                    }else {
-                        //Replace value1 by value2
-                        editor.putInt("Value1", randomNum);
-                    }
-                }
-            } else {
-                Log.e("InsertValue1", "" + randomNum);
-                editor.putInt("Value1", randomNum);
-            }
-
-
-            if (value1 != 0) {
-                Log.e("ReadValue1", "" + value1);
-                if (value2 != 0) {
-                    Log.e("ReadValue2", "" + value2);
-                    if ((value1 < HEART_RATE_MIN || value1 > HEART_RATE_MAX) && (value2 < HEART_RATE_MIN || value2 > HEART_RATE_MAX)) {
-                        //Get user current location
-                        registerBroadCastReceivers(context);
-                        mCarrierMobileNumber = new ArrayList<>();
-                        GpsTrackerService gpsTrackerService = new GpsTrackerService(context);
-                        if (gpsTrackerService.canGetLocation()) {
-                            double latitude = gpsTrackerService.getLatitude();
-                            double longitude = gpsTrackerService.getLongitude();
-                            Log.e("Latitude", "" + latitude);
-                            Log.e("Longitude", "" + longitude);
-
-                            //get two Nearest Naloxone Carriers from API
-                            getNaloxoneCarrier(context, String.valueOf(latitude), String.valueOf(longitude));
-
-                        } else {
-                            // can't get location
-                            // GPS or Network is not enabled
-                            // Ask user to enable GPS/network in settings
-                            gpsTrackerService.showSettingsAlert();
-                        }
-                        //Find Primary and Secondary Naloxone Carriers
-                        //Send SMS to Nearest Naloxone Carrier and Friends and Family
-                        Log.e("FinalCheck", "SMS triggered");
-                        editor.putBoolean("isAlertStart", true);
                     } else {
-                        //Last Two Readings are normal set Shared Preferences to ZERO
-                        Log.e("FinalCheck", "Heart Rate Normal");
-                        editor.putInt("Value1", 0);
-                        editor.putInt("Value2", 0);
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gpsTrackerService.showSettingsAlert();
                     }
+                    //Find Primary and Secondary Naloxone Carriers
+                    //Send SMS to Nearest Naloxone Carrier and Friends and Family
+                    Log.e("FinalCheck", "SMS triggered");
+                    editor.putBoolean("isAlertStart", true);
 
                 } else {
-                    Log.e("InsertValue2", "" + randomNum);
-                    editor.putInt("Value2", randomNum);
+
+                    Log.e("HeartRate", "Normal");
+                    //Replace value1 by random Number
+                    editor.putInt("Value1", randomNum);
                 }
             } else {
-                Log.e("InsertValue1", "" + randomNum);
+                Log.e("FirstReading", "" + randomNum);
                 editor.putInt("Value1", randomNum);
             }
         } else {
