@@ -4,6 +4,9 @@
 
 package com.humworld.lifesaverapi.util;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+
 /**
  * Utility class, which contains constant variables and static methods.
  * 
@@ -11,7 +14,17 @@ package com.humworld.lifesaverapi.util;
  * @version 1.0
  */
 public class WebServiceUtils {
-
+	
+	/**
+	 * Compares latitudes and longitudes.
+	 * 
+	 * @param latitudeGiven Latitude given by client.
+	 * @param longitudeGiven Longitude given by client.
+	 * @param latitudeTaken Latitude fetched from DB.
+	 * @param longitudeTaken Longitude fetched from DB.
+	 * 
+	 * @return {@link Double} Distance in miles.
+	 */
 	public static double distanceTo(double latitudeGiven, double longitudeGiven, 
 									double latitudeTaken, double longitudeTaken) {
 		double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
@@ -29,5 +42,22 @@ public class WebServiceUtils {
 		double statuteMiles = STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
 		return statuteMiles;
 	}
+	
+	/**
+     * Used to decode the database password.
+     * 
+     * @return String The decoded password.
+     */
+    public static String decodePassword(){
+    	String encodedPassword = "YOUR_PASSWORD";
+    	byte[] decodedByte = Base64.getDecoder().decode(encodedPassword);
+    	String decodedString = null;
+		try {
+			decodedString = new String(decodedByte, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			return decodedString;
+		}
+    	return decodedString;
+    }
 
 }

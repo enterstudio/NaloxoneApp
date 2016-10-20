@@ -62,6 +62,26 @@ public class MainReceiver extends BroadcastReceiver {
             int randomNum = rand.nextInt((RANDOM_NUM_MAX - RANDOM_NUM_MIN) + 1) + RANDOM_NUM_MIN;
 
             if (value1 != 0) {
+                if (value2 != 0) {
+
+                } else {
+                    Log.e("InsertValue2", "" + randomNum);
+                    editor.putInt("Value2", randomNum);
+                    if ((value1 < HEART_RATE_MIN || value1 > HEART_RATE_MAX) && (value2 < HEART_RATE_MIN || value2 > HEART_RATE_MAX)) {
+
+
+                    }else {
+                        //Replace value1 by value2
+                        editor.putInt("Value1", randomNum);
+                    }
+                }
+            } else {
+                Log.e("InsertValue1", "" + randomNum);
+                editor.putInt("Value1", randomNum);
+            }
+
+
+            if (value1 != 0) {
                 Log.e("ReadValue1", "" + value1);
                 if (value2 != 0) {
                     Log.e("ReadValue2", "" + value2);

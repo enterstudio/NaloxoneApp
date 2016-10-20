@@ -20,6 +20,8 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.humworld.lifesaverapi.util.WebServiceUtils;
+
 /**
  * Hibernate configuration class.
  * 
@@ -50,7 +52,7 @@ public class HibernateConfiguration {
 	        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
 	        dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
 	        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-	        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+	        dataSource.setPassword(WebServiceUtils.decodePassword());
 	        return dataSource;
 	    }
 	 

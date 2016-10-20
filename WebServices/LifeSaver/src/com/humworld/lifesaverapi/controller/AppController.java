@@ -32,7 +32,7 @@ import com.humworld.lifesaverapi.util.WebServiceUtils;
 @RestController
 public class AppController {
 	
-	private static final String CODE = "effe43c93264fc4e82715ebbbbe13cfabe9ba5d8080188bd1a898ade8c5611b4";
+	private static final String CODE = "YOUR_CODE";
 	
 	@Autowired
 	private CarrierDetailsService carrierDetailsService;
@@ -59,8 +59,8 @@ public class AppController {
 	/**
 	 * Handles all the request for URL /CarrierDetails.
 	 * 
-	 * @param latitude Latitude sent from mobile app.
-	 * @param longitude Longitude sent from mobile app.
+	 * @param latitude Latitude given by client.
+	 * @param longitude Longitude given by client.
 	 * 
 	 * @return {@link ResponseEntity} Returns nearest carrier details.
 	 */
