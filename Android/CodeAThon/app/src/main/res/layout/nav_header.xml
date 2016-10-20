@@ -1,0 +1,33 @@
+<!--Previous header height 192dp-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/header_background"
+              android:layout_width="match_parent"
+              android:layout_height="140dp"
+              android:background="@color/colorPrimary"
+              android:gravity="bottom"
+              android:orientation="vertical"
+              android:padding="16dp"
+              android:theme="@style/ThemeOverlay.AppCompat.Dark"
+              tools:ignore="Overdraw">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:src="@android:drawable/ic_menu_view"
+        android:id="@+id/user_profile_picture"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/appName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+
+
+</LinearLayout>

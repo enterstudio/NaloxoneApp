@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CodeAThon</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="home">Home</string>
+    <string name="contact">Contact</string>
+    <string name="save">Save</string>
+    <string name="alert">ALERT</string>
+    <string name="appName">Naloxone App</string>
+    <string name="addFromContact">Add From Contact</string>
+</resources>
